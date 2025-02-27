@@ -1,0 +1,8 @@
+---
+description: General project testing practices
+globs: *.test.{ts, tsx}
+alwaysApply: false
+---
+
+- use `npm run test` to run test
+- with RNTL try to avoid mocks

@@ -1,0 +1,26 @@
+{
+  "expo": {
+    "name": "ravenpack-exercise",
+    "slug": "ravenpack-exercise",
+    "newArchEnabled": true,
+    "scheme": "com.ravenpack.exercise",
+    "userInterfaceStyle": "automatic",
+    "orientation": "portrait",
+    "version": "0.0.1",
+    "web": {
+      "output": "server",
+      "bundler": "metro"
+    },
+    "plugins": [
+      [
+        "expo-router",
+        {
+          "origin": "https://ravenpack-exercise.vercel.app"
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}
