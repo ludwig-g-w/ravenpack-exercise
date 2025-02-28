@@ -4,5 +4,5 @@ globs: *.test.{ts, tsx}
 alwaysApply: false
 ---
 
-- use `npm run test` to run test
-- with RNTL try to avoid mocks
+- use `bun run test` to run test
+- only test functionality

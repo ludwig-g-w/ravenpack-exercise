@@ -12,5 +12,6 @@ With this task we would like you to create a simple blog post reading applicatio
 * I should be able to see all posts by a given user.
 
 
-*Tech To Use*
-The only mandatory library for this task is React Native, apart from that you are free to use any publicly available library you like. Some of the tech we like to use: TypeScript, Tanstack query, react testing library, axios, vite, prettier, eslint, date-fns. Please note that while this task is focused on the code, care should also be taken with the site design.
+*Instructions*
+- use `bun` for running scripts like `bun run <script>`
+- use Jest and RNTL for testing
