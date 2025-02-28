@@ -1,4 +1,4 @@
-import { Post } from "@/types/json-placeholder-api";
+import { Post, Comment, User } from "@/types/json-placeholder-api";
 import * as trpcNext from "@trpc/server/adapters/next";
 import { z } from "zod";
 import { procedure, router } from "../trpc";
@@ -16,8 +16,6 @@ export const appRouter = router({
     const data: Post[] = await Promise.all(
       responses.map((response) => response.json())
     );
-
-    console.log(data);
 
     return data;
   }),
@@ -40,7 +38,22 @@ export const appRouter = router({
         `https://jsonplaceholder.typicode.com/posts/${input}/comments`
       );
       const data: Comment[] = await response.json();
+      return data;
     }),
+  userById: procedure.input(z.number()).query(async ({ ctx, input }) => {
+    const response = await fetch(
+      `https://jsonplaceholder.typicode.com/users/${input}`
+    );
+    const data: User = await response.json();
+    return data;
+  }),
+  postsByUserId: procedure.input(z.number()).query(async ({ ctx, input }) => {
+    const response = await fetch(
+      `https://jsonplaceholder.typicode.com/users/${input}/posts`
+    );
+    const data: Post[] = await response.json();
+    return data;
+  }),
 });
 
 export type AppRouter = typeof appRouter;
