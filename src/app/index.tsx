@@ -1,29 +1,99 @@
-import React from "react";
-import { Text, View } from "react-native";
+import { vars } from "nativewind";
+import { H1, H2 } from "@/components/ui/typography";
 import { trpc } from "@/utils/trpc";
-import { FlashList } from "@shopify/flash-list";
-import { Post } from "@/types/json-placeholder-api";
+import { useRouter } from "expo-router";
+import React, { useRef, useState } from "react";
+import {
+  Dimensions,
+  FlatList,
+  ScrollView,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import PostCard from "@/components/PostCard";
+import PostListItem from "@/components/PostListItem";
+
+const { width: SCREEN_WIDTH } = Dimensions.get("window");
+
 const Home = () => {
-  const firstPost = trpc.first5Posts.useQuery();
+  const [activeIndex, setActiveIndex] = useState(0);
+  const scrollViewRef = useRef<ScrollView>(null);
+  const router = useRouter();
+
+  const [first5Posts] = trpc.first5Posts.useSuspenseQuery();
+  const [allPosts] = trpc.allPosts.useSuspenseQuery();
+
+  const handleScroll = (event: any) => {
+    const scrollPosition = event.nativeEvent.contentOffset.x;
+    const index = Math.round(scrollPosition / SCREEN_WIDTH);
+    setActiveIndex(index);
+  };
+
+  const scrollToIndex = (index: number) => {
+    scrollViewRef.current?.scrollTo({
+      x: index * SCREEN_WIDTH,
+      animated: true,
+    });
+    setActiveIndex(index);
+  };
 
   return (
-    <View className="flex-1">
-      <FlashList
-        data={firstPost.data}
-        estimatedItemSize={200}
-        renderItem={({ item }) => <PostCard post={item} />}
-      />
-    </View>
-  );
-};
+    <FlatList
+      style={{ flex: 1, backgroundColor: "white", paddingTop: 88 }}
+      ListHeaderComponent={
+        <>
+          <View className="bg-white pt-4 pb-6">
+            <H1 className="text-3xl text-center text-indigo-900 font-bold mb-6 px-4">
+              Blog Posts
+            </H1>
+            <ScrollView
+              ref={scrollViewRef}
+              horizontal
+              pagingEnabled
+              style={{ height: 280 }}
+              showsHorizontalScrollIndicator={false}
+              onScroll={handleScroll}
+              scrollEventThrottle={16}
+              decelerationRate="fast"
+            >
+              {first5Posts.map((post) => (
+                <PostCard key={post.id} post={post} />
+              ))}
+            </ScrollView>
 
-const PostCard = ({ post }: { post: Post }) => {
-  return (
-    <View className="p-4 border border-indigo-200 bg-indigo-50 rounded-lg">
-      <Text className="text-lg font-bold">{post.title}</Text>
-      <Text className="text-sm text-gray-500">{post.body}</Text>
-      <Text className="text-sm text-gray-500">{post.userId}</Text>
-    </View>
+            {/* Pagination Dots */}
+            <View className="flex-row justify-center items-center mt-4">
+              {first5Posts.map((_, index) => (
+                <TouchableOpacity
+                  key={index}
+                  onPress={() => scrollToIndex(index)}
+                  className={`h-2.5 w-2.5 rounded-full mx-1.5 ${
+                    activeIndex === index ? "bg-indigo-600" : "bg-indigo-200"
+                  }`}
+                />
+              ))}
+            </View>
+          </View>
+
+          <View className="bg-indigo-200 pt-4 pb-2 px-4 mb-4">
+            <H2 className="text-xl text-indigo-900 font-semibold ">
+              All Posts
+            </H2>
+          </View>
+        </>
+      }
+      data={allPosts}
+      keyExtractor={(item) => item.id.toString()}
+      renderItem={({ item }) => <PostListItem post={item} />}
+      showsVerticalScrollIndicator={false}
+      ItemSeparatorComponent={() => <View className="h-3" />}
+      contentContainerStyle={{
+        paddingHorizontal: 16,
+        paddingBottom: 24,
+        paddingTop: 8,
+        backgroundColor: "white",
+      }}
+    />
   );
 };
 
