@@ -1,4 +1,5 @@
-import { vars } from "nativewind";
+import PostCard from "@/components/PostCard";
+import PostListItem from "@/components/PostListItem";
 import { H1, H2 } from "@/components/ui/typography";
 import { trpc } from "@/utils/trpc";
 import { useRouter } from "expo-router";
@@ -10,15 +11,12 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import PostCard from "@/components/PostCard";
-import PostListItem from "@/components/PostListItem";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 
 const Home = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const scrollViewRef = useRef<ScrollView>(null);
-  const router = useRouter();
 
   const [first5Posts] = trpc.first5Posts.useSuspenseQuery();
   const [allPosts] = trpc.allPosts.useSuspenseQuery();
