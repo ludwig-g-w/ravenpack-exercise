@@ -9,13 +9,25 @@ export default function Layout() {
         <Stack.Screen
           name="index"
           options={{
-            title: "Home",
+            headerBlurEffect: "regular",
+            headerTransparent: true,
+            title: "Blog Posts",
             headerLargeTitle: true,
             headerLargeTitleShadowVisible: false,
           }}
         />
-        <Stack.Screen name="posts/[id]" options={{ title: "Post" }} />
-        <Stack.Screen name="users/[id]" options={{ title: "User" }} />
+        <Stack.Screen
+          name="posts/[id]"
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="users/[id]"
+          options={{
+            headerShown: false,
+          }}
+        />
       </Stack>
     </Providers>
   );
