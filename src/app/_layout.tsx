@@ -1,6 +1,6 @@
-import "../global.css";
-import { Slot, Stack } from "expo-router";
 import Providers from "@/providers";
+import { Stack } from "expo-router";
+import "../global.css";
 
 export default function Layout() {
   return (
@@ -19,13 +19,19 @@ export default function Layout() {
         <Stack.Screen
           name="posts/[id]"
           options={{
-            headerShown: false,
+            headerTintColor: "black",
+            title: "",
+            headerBlurEffect: "regular",
+            headerTransparent: true,
           }}
         />
         <Stack.Screen
           name="users/[id]"
           options={{
-            headerShown: false,
+            headerTintColor: "black",
+            title: "",
+            headerBlurEffect: "regular",
+            headerTransparent: true,
           }}
         />
       </Stack>

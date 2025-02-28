@@ -8,7 +8,7 @@ import {
 import { Small } from "@/components/ui/typography";
 import { Text } from "@/components/ui/text";
 import { Post } from "@/types/json-placeholder-api";
-import { useRouter } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import React from "react";
 import { Pressable, TouchableOpacity } from "react-native";
 
@@ -33,21 +33,17 @@ const PostListItem: React.FC<PostListItemProps> = ({ post }) => {
           </Text>
         </CardContent>
         <CardFooter className="flex-row justify-between items-center pt-2 border-t border-gray-100 px-4 pb-3">
-          <TouchableOpacity
-            onPress={(e) => {
-              e.stopPropagation();
-              router.push(`/users/${post.userId}`);
-            }}
+          <Link
+            href={`/users/${post.userId}`}
             className="px-2 py-1 rounded-full bg-indigo-50"
           >
             <Small className="text-indigo-600 font-medium">
               User #{post.userId}
             </Small>
-          </TouchableOpacity>
+          </Link>
           <TouchableOpacity
             className="bg-indigo-600 px-3 py-1 rounded-md"
-            onPress={(e) => {
-              e.stopPropagation();
+            onPress={() => {
               router.push(`/posts/${post.id}`);
             }}
           >

@@ -22,7 +22,7 @@ export const appRouter = router({
   allPosts: procedure.query(async ({ ctx }) => {
     const response = await fetch("https://jsonplaceholder.typicode.com/posts");
     const data: Post[] = await response.json();
-    return data;
+    return data.slice(5);
   }),
   postById: procedure.input(z.number()).query(async ({ ctx, input }) => {
     const response = await fetch(
