@@ -1,6 +1,8 @@
 import Providers from "@/providers";
 import { Stack } from "expo-router";
+import { NativeStackNavigationOptions } from "@react-navigation/native-stack";
 import "../global.css";
+import { Platform } from "react-native";
 
 export default function Layout() {
   return (
@@ -9,32 +11,40 @@ export default function Layout() {
         <Stack.Screen
           name="index"
           options={{
-            headerBlurEffect: "regular",
-            headerTransparent: true,
+            ...commonOptions,
             title: "Blog Posts",
-            headerLargeTitle: true,
             headerLargeTitleShadowVisible: false,
+            headerLargeTitle: true,
           }}
         />
         <Stack.Screen
           name="posts/[id]"
           options={{
-            headerTintColor: "black",
-            title: "",
-            headerBlurEffect: "regular",
-            headerTransparent: true,
+            ...commonOptions,
+            title: "Post",
           }}
         />
         <Stack.Screen
           name="users/[id]"
           options={{
-            headerTintColor: "black",
-            title: "",
-            headerBlurEffect: "regular",
-            headerTransparent: true,
+            ...commonOptions,
+            title: "User",
           }}
         />
       </Stack>
     </Providers>
   );
 }
+
+const commonOptions: NativeStackNavigationOptions =
+  Platform.OS === "ios"
+    ? {
+        headerTintColor: "black",
+        title: "",
+        headerBlurEffect: "regular",
+        headerTransparent: true,
+      }
+    : {
+        headerTintColor: "black",
+        title: "",
+      };

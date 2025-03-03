@@ -2,6 +2,7 @@ import { trpc } from "@/utils/trpc";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { httpBatchLink } from "@trpc/client";
 import React, { useState } from "react";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import superjson from "superjson";
 
 function Providers({ children }: { children: React.ReactNode }) {

@@ -11,7 +11,10 @@ interface AuthorInfoProps {
 
 export const AuthorInfo = ({ author }: AuthorInfoProps) => {
   return (
-    <NWLink href={`/users/${author.id}`} className="flex-1 w-full ">
+    <NWLink
+      href={`/users/${author.id}`}
+      className="flex-1 w-full active:scale-95 transition-all duration-100"
+    >
       <Card className="bg-indigo-500 border-0 w-full">
         <View className="flex flex-row items-center gap-4  align-center p-2">
           <View className="h-12 w-12 rounded-full bg-primary-foreground/20 items-center justify-center">

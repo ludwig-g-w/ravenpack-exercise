@@ -1,12 +1,4 @@
-import React from "react";
-import {
-  View,
-  FlatList,
-  TouchableOpacity,
-  ActivityIndicator,
-} from "react-native";
-import { useLocalSearchParams, useRouter } from "expo-router";
-import { trpc } from "@/utils/trpc";
+import { NWLink } from "@/components/Nativewind";
 import {
   Card,
   CardContent,
@@ -14,57 +6,36 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { H1, P, Small } from "@/components/ui/typography";
 import { Text } from "@/components/ui/text";
+import { H1, P, Small } from "@/components/ui/typography";
+import { trpc } from "@/utils/trpc";
+import { FlashList } from "@shopify/flash-list";
+import { useLocalSearchParams, useRouter } from "expo-router";
+import React from "react";
+import { Pressable, View } from "react-native";
 
 const UserPosts = () => {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
   const userId = parseInt(id || "1", 10);
 
-  const userQuery = trpc.userById.useQuery(userId);
-  const userPostsQuery = trpc.postsByUserId.useQuery(userId);
-
-  if (userQuery.isLoading || userPostsQuery.isLoading) {
-    return (
-      <View className="flex-1 items-center justify-center">
-        <ActivityIndicator size="large" color="#6366f1" />
-      </View>
-    );
-  }
-
-  if (!userQuery.data) {
-    return (
-      <View className="flex-1 items-center justify-center">
-        <P>User not found</P>
-      </View>
-    );
-  }
+  const [userQuery] = trpc.postsByUserIdWithUser.useSuspenseQuery(userId);
 
   return (
     <View className="flex-1 bg-background">
-      {/* Header */}
-      <View className="px-4 pt-12 pb-4 bg-primary">
-        <TouchableOpacity onPress={() => router.back()} className="mb-4">
-          <Text className="text-primary-foreground">← Back</Text>
-        </TouchableOpacity>
-        <H1 className="text-primary-foreground">
-          {userQuery.data.name}'s Posts
-        </H1>
-        <Text className="text-primary-foreground/80 mt-1">
-          @{userQuery.data.username} • {userQuery.data.email}
-        </Text>
+      <View className={`px-4 pb-4 bg-primary pt-safe-offset-24`}>
+        <H1 className="text-primary-foreground mb-12">{userQuery.user.name}</H1>
       </View>
 
-      {/* User Posts */}
       <View className="flex-1 p-4">
-        <FlatList
-          data={userPostsQuery.data}
+        <FlashList
+          showsVerticalScrollIndicator={false}
+          data={userQuery.posts}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
-            <TouchableOpacity
-              onPress={() => router.push(`/posts/${item.id}`)}
-              className="mb-4"
+            <NWLink
+              href={`/posts/${item.id}`}
+              className="mb-4 active:scale-95 transition-all duration-100"
             >
               <Card>
                 <CardHeader className="pb-2">
@@ -77,17 +48,17 @@ const UserPosts = () => {
                 </CardContent>
                 <CardFooter className="flex-row justify-between items-center">
                   <Small>Post #{item.id}</Small>
-                  <TouchableOpacity
+                  <Pressable
                     className="bg-primary px-3 py-1 rounded-md"
                     onPress={() => router.push(`/posts/${item.id}`)}
                   >
                     <Text className="text-primary-foreground text-xs">
                       Read
                     </Text>
-                  </TouchableOpacity>
+                  </Pressable>
                 </CardFooter>
               </Card>
-            </TouchableOpacity>
+            </NWLink>
           )}
           ListEmptyComponent={() => (
             <View className="items-center justify-center py-8">

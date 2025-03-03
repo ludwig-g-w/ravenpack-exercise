@@ -10,7 +10,7 @@ import { Text } from "@/components/ui/text";
 import { Post } from "@/types/json-placeholder-api";
 import { Link, useRouter } from "expo-router";
 import React from "react";
-import { Pressable, TouchableOpacity } from "react-native";
+import { Pressable } from "react-native";
 
 interface PostListItemProps {
   post: Post;
@@ -20,7 +20,10 @@ const PostListItem: React.FC<PostListItemProps> = ({ post }) => {
   const router = useRouter();
 
   return (
-    <Pressable onPress={() => router.push(`/posts/${post.id}`)}>
+    <Pressable
+      onPress={() => router.push(`/posts/${post.id}`)}
+      className="active:scale-95 transition-all duration-100"
+    >
       <Card className="overflow-hidden border border-gray-200 rounded-lg bg-white">
         <CardHeader className="pb-2 border-b border-gray-100 px-4 pt-3">
           <CardTitle className="text-base text-indigo-900 font-semibold">
@@ -41,14 +44,14 @@ const PostListItem: React.FC<PostListItemProps> = ({ post }) => {
               User #{post.userId}
             </Small>
           </Link>
-          <TouchableOpacity
+          <Pressable
             className="bg-indigo-600 px-3 py-1 rounded-md"
             onPress={() => {
               router.push(`/posts/${post.id}`);
             }}
           >
             <Text className="text-white text-xs font-medium">Read</Text>
-          </TouchableOpacity>
+          </Pressable>
         </CardFooter>
       </Card>
     </Pressable>

@@ -24,13 +24,21 @@ export const appRouter = router({
     const data: Post[] = await response.json();
     return data.slice(5);
   }),
-  postById: procedure.input(z.number()).query(async ({ ctx, input }) => {
-    const response = await fetch(
-      `https://jsonplaceholder.typicode.com/posts/${input}`
-    );
-    const data: Post = await response.json();
-    return data;
-  }),
+  postByIdWithUser: procedure
+    .input(z.number())
+    .query(async ({ ctx, input }) => {
+      const [post, user] = await Promise.all([
+        fetch(`https://jsonplaceholder.typicode.com/posts/${input}`),
+        fetch(`https://jsonplaceholder.typicode.com/users/${input}`),
+      ]);
+
+      const [postData, userData] = await Promise.all([
+        post.json(),
+        user.json(),
+      ]);
+
+      return { post: postData as Post, user: userData as User };
+    }),
   commentsByPostId: procedure
     .input(z.number())
     .query(async ({ ctx, input }) => {
@@ -40,20 +48,25 @@ export const appRouter = router({
       const data: Comment[] = await response.json();
       return data;
     }),
-  userById: procedure.input(z.number()).query(async ({ ctx, input }) => {
-    const response = await fetch(
-      `https://jsonplaceholder.typicode.com/users/${input}`
-    );
-    const data: User = await response.json();
-    return data;
-  }),
-  postsByUserId: procedure.input(z.number()).query(async ({ ctx, input }) => {
-    const response = await fetch(
-      `https://jsonplaceholder.typicode.com/users/${input}/posts`
-    );
-    const data: Post[] = await response.json();
-    return data;
-  }),
+
+  postsByUserIdWithUser: procedure
+    .input(z.number())
+    .query(async ({ ctx, input }) => {
+      const [user, posts] = await Promise.all([
+        fetch(`https://jsonplaceholder.typicode.com/users/${input}`),
+        fetch(`https://jsonplaceholder.typicode.com/users/${input}/posts`),
+      ]);
+
+      const [userData, postsData] = await Promise.all([
+        user.json(),
+        posts.json(),
+      ]);
+
+      return {
+        user: userData as User,
+        posts: postsData as Post[],
+      };
+    }),
 });
 
 export type AppRouter = typeof appRouter;
