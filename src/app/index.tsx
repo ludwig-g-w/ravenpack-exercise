@@ -6,6 +6,7 @@ import { FlashList } from "@shopify/flash-list";
 import React, { useRef, useState } from "react";
 import {
   Dimensions,
+  Platform,
   Pressable,
   ScrollView,
   TouchableOpacity,
@@ -35,7 +36,11 @@ const Home = () => {
   };
 
   return (
-    <View className={`flex-1 bg-background pt-safe-offset-24`}>
+    <View
+      className={`flex-1 bg-background ${
+        Platform.OS === "ios" ? "pt-safe-offset-20" : "pt-safe-offset"
+      }`}
+    >
       <FlashList
         estimatedItemSize={200}
         ListHeaderComponent={

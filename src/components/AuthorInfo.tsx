@@ -19,7 +19,7 @@ export const AuthorInfo = ({ author }: AuthorInfoProps) => {
         <View className="flex flex-row items-center gap-4  align-center p-2">
           <View className="h-12 w-12 rounded-full bg-primary-foreground/20 items-center justify-center">
             <Large className="text-lg font-bold text-primary-foreground">
-              {author.name.charAt(0)}
+              {author?.name?.charAt(0) || "U"}
             </Large>
           </View>
           <View>
@@ -29,7 +29,7 @@ export const AuthorInfo = ({ author }: AuthorInfoProps) => {
               </P>
             </Badge>
             <P className="text-xl font-bold text-primary-foreground">
-              {author.name}
+              {author?.name || "Unknown User"}
             </P>
           </View>
         </View>
