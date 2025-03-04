@@ -22,6 +22,7 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
   return (
     <Link href={`/posts/${post.id}`} asChild>
       <Card
+        testID={`post-card-${post.id}`}
         className="overflow-hidden border bg-card rounded-xl active:scale-95 transition-all duration-300"
         style={{ width: SCREEN_WIDTH - 40 }}
       >

@@ -70,6 +70,7 @@ const Home = () => {
                 {first5Posts.map((_, index) => (
                   <Pressable
                     key={index}
+                    testID={`pagination-dot-${index}`}
                     onPress={() => scrollToIndex(index)}
                     className={`h-2.5 w-2.5 rounded-full mx-1.5 ${
                       activeIndex === index ? "bg-indigo-600" : "bg-indigo-200"
