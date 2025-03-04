@@ -23,6 +23,7 @@ The application is built using the following technologies:
 - **React Query**: Data fetching and state management
 - **NativeWind/Tailwind CSS**: Utility-first CSS framework for styling
 - **Expo Router**: File-based routing for Expo apps
+- **Jest & Testing library**: integration tests adapted for Expo Router
 
 ## Installation
 
