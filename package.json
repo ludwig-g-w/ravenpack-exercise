@@ -7,12 +7,7 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "test": "jest",
-    "prisma:studio": "npx prisma studio --schema src/prisma/schema.prisma",
-    "prisma:generate": "npx prisma generate --schema src/prisma/schema.prisma",
-    "prisma:push": "npx prisma db push --schema src/prisma/schema.prisma",
-    "prisma:pull": "npx prisma db pull --schema src/prisma/schema.prisma",
-    "prisma:introspect": "npx prisma introspect --schema src/prisma/schema.prisma"
+    "test": "jest"
   },
   "dependencies": {
     "@prisma/client": "^5.9.1",
